@@ -1,12 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+
 import "./index.css";
-import App from "./App";
+
+import Home from "./pages/Home";
+import AddVideo from "./pages/register/Video";
+import AddCategory from "./pages/register/Category";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Switch>
+      <Route path="/" component={Home} exact />
+      <Route path="/add/newvideo" component={AddVideo} exact />
+      <Route path="/add/category" component={AddCategory} exact />
+    </Switch>
+  </BrowserRouter>,
   document.getElementById("root")
 );
 
