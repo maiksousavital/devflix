@@ -25,7 +25,7 @@ function AddCategory() {
   }
 
   useEffect(() => {
-    const URL = 'http://localhost:3001/category';
+    const URL = 'http://localhost:8080/category';
     fetch(URL).then(async (res) => {
       const resp = await res.json();
       setCategories([...resp]);
