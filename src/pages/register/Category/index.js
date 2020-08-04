@@ -25,7 +25,10 @@ function AddCategory() {
   }
 
   useEffect(() => {
-    const URL = 'http://localhost:8080/category';
+    const URL = window.location.hostname.includes('localhost')
+      ? 'http://localhost:3000/add/category'
+      : 'https://devflix-app.herokuapp.com/category';
+
     fetch(URL).then(async (res) => {
       const resp = await res.json();
       setCategories([...resp]);
