@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
-import PageDefault from "../../../components/PageDefault";
-import FormField from "../../../components/Form/FormField";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import PageDefault from '../../../components/PageDefault';
+import FormField from '../../../components/Form/FormField';
+import Button from '../../../components/Button';
 
 function AddCategory() {
   const initialValues = {
-    name: "",
-    description: "",
-    color: "",
+    name: '',
+    description: '',
+    color: '',
   };
   const [categories, setCategories] = useState([]);
   const [values, setValues] = useState(initialValues);
@@ -20,8 +21,16 @@ function AddCategory() {
   }
 
   function handleOnchange(e) {
-    setValue(e.target.getAttribute("name"), e.target.value);
+    setValue(e.target.getAttribute('name'), e.target.value);
   }
+
+  useEffect(() => {
+    const URL = 'http://localhost:3001/category';
+    fetch(URL).then(async (res) => {
+      const resp = await res.json();
+      setCategories([...resp]);
+    });
+  }, []);
 
   return (
     <div>
@@ -42,17 +51,13 @@ function AddCategory() {
             onChange={handleOnchange}
           />
 
-          <div>
-            <label htmlFor="Category">
-              Description:
-              <textarea
-                type="text"
-                value={values.description}
-                name="description"
-                onChange={handleOnchange}
-              />
-            </label>
-          </div>
+          <FormField
+            label="Description"
+            type="textarea"
+            name="description"
+            value={values.description}
+            onChange={handleOnchange}
+          />
 
           <FormField
             label="Color"
@@ -62,7 +67,7 @@ function AddCategory() {
             onChange={handleOnchange}
           />
 
-          <button>Save</button>
+          <Button>Save</Button>
         </form>
 
         <ul>
