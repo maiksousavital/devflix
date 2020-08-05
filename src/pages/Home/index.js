@@ -1,34 +1,42 @@
-import React from "react";
+/* eslint-disable linebreak-style */
+import React, { useState, useEffect } from 'react';
 
-import Menu from "../../components/Menu";
-import initialData from "../../assets/data/dados_iniciais.json";
-import BannerMain from "../../components/BannerMain";
-import Carousel from "../../components/Carousel";
-import Footer from "../../components/Footer";
+import BannerMain from '../../components/BannerMain';
+import Carousel from '../../components/Carousel';
+import PageDefault from '../../components/PageDefault';
+import categoriesRepository from '../../repositories/categories';
 
 function Home() {
+  const [initialData, setInitialData] = useState([]);
+
+  useEffect(() => {
+    categoriesRepository
+      .getAllCategoriesWithVideos()
+      .then((categoriesWithVideos) => {
+        setInitialData(categoriesWithVideos);
+      });
+  }, []);
+
   return (
-    <div style={{ background: "#141414" }}>
-      <Menu />
-      <BannerMain
-        videoTitle={initialData.categorias[0].videos[0].titulo}
-        url={initialData.categorias[0].videos[0].url}
-        videoDescription={"What is Fron-End"}
-      />
-      <Carousel ignoreFirstVideo category={initialData.categorias[0]} />
+    <PageDefault paddingAll={0}>
+      {initialData.length === 0 && <div>Loading...</div>}
 
-      <Carousel ignoreFirstVideo category={initialData.categorias[1]} />
-
-      <Carousel ignoreFirstVideo category={initialData.categorias[2]} />
-
-      <Carousel ignoreFirstVideo category={initialData.categorias[3]} />
-
-      <Carousel ignoreFirstVideo category={initialData.categorias[4]} />
-
-      <Carousel ignoreFirstVideo category={initialData.categorias[5]} />
-
-      <Footer />
-    </div>
+      {initialData.map((category, index) => {
+        if (index === 0) {
+          return (
+            <div key={category.id}>
+              <BannerMain
+                videoTitle={initialData[0].videos[0].name}
+                url={initialData[0].videos[0].url}
+                videoDescription={initialData[0].videos[0].description}
+              />
+              <Carousel ignoreFirstVideo category={initialData[0]} />
+            </div>
+          );
+        }
+        return <Carousel key={category.id} category={category} />;
+      })}
+    </PageDefault>
   );
 }
 
