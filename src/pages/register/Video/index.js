@@ -13,9 +13,9 @@ function AddVideo() {
   const categoriesTitles = categories.map(({ name }) => name);
 
   const { handleOnchange, values } = useForm({
-    name: 'Formik',
-    url: 'https://www.youtube.com/watch?v=cMq6k7ymv2s',
-    category: '1',
+    name: '',
+    url: '',
+    category: '',
   });
 
   useEffect(() => {
